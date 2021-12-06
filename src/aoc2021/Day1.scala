@@ -8,14 +8,12 @@ object Day1 extends App {
     _.getLines.toSeq
   }.get.map(_.toInt)
 
-  def nbrOfIncreases(input: Seq[Int]) =
-    input.zip(input.drop(1)).count(pair => pair._1 < pair._2)
+  def numberOfIncreases(input: Seq[Int]) = input.sliding(2).count { case Seq(a, b) => a < b }
 
-  val part1 = nbrOfIncreases(input)
+  val part1 = numberOfIncreases(input)
   println(part1)
 
-  val sum3 = (0 until input.size - 2).map(i => input.slice(i, i + 3).sum)
-  val part2 = nbrOfIncreases(sum3)
+  val part2 = numberOfIncreases(input.sliding(3).map(_.sum).toSeq)
   println(part2)
 
 }
