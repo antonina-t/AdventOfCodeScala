@@ -32,7 +32,7 @@ object Day8 extends App {
     val bf = Seq(b, f).sorted.mkString
     val be = Seq(b, e).sorted.mkString
     val ce = Seq(c, e).sorted.mkString
-    val decodedDigits = code.map(digit => {
+    code.map(digit => {
       val notInEight = abcdefg.diff(digit).sorted.mkString
       digit.length match {
         case 2 => 1
@@ -42,8 +42,7 @@ object Day8 extends App {
         case 5 => Map(bf -> 2, be -> 3, ce -> 5).getOrElse(notInEight, 0)
         case 6 => Map(d -> 0, c -> 6, e -> 9).getOrElse(notInEight.head, 0)
       }
-    })
-    Integer.parseInt(decodedDigits.mkString)
+    }).mkString.toInt
   }
 
   val part2 = input.map {
