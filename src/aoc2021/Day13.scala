@@ -1,7 +1,5 @@
 package aoc2021
 
-import aoc2021.Day13.dots
-
 import scala.io.Source
 import scala.util.Using
 

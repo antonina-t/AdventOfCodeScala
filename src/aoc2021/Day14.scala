@@ -17,7 +17,6 @@ object Day14 extends App {
       .getOrElse(pair)).flatMap(_.init).mkString + template.last
   })
 
-
   val max = poly.groupBy(identity).maxBy(_._2.length)
   val min = poly.groupBy(identity).minBy(_._2.length)
 
@@ -41,7 +40,10 @@ object Day14 extends App {
 
   val allLetters = counts.keys.flatten.toSeq.distinct
 
-  val letterCounts = allLetters.map(l => l -> (counts.filter(_._1.contains(l)).values.sum / 2 + counts.getOrElse(Seq(l,l).mkString, 0L) / 2)).filterNot(_._1 == '-')
+  val letterCounts = allLetters
+    .map(l => l -> (counts.filter(_._1.contains(l)).values.sum / 2 + counts.getOrElse(Seq(l,l).mkString, 0L) / 2))
+    .filterNot(_._1 == '-')
+
   println(letterCounts)
   val max2 = letterCounts.maxBy(_._2)._2
   val min2 = letterCounts.minBy(_._2)._2
