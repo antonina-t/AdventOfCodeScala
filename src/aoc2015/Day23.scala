@@ -4,7 +4,7 @@ import scala.io.Source
 import scala.util.Using
 
 object Day23 extends App {
-  val input = Using(Source.fromFile("input/2015/23.txt")) {
+  val input = Using(Source.fromFile("input/2015/2e.txt")) {
     _.getLines.toArray
   }.get
 
