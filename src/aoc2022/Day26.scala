@@ -7,7 +7,7 @@ import scala.util.Using
 
 object Day26 extends App {
 
-  val input = Using(Source.fromFile("input/2022/26.txt")) {
+  val input = Using(Source.fromFile("input/2022/1.txt")) {
     _.getLines().toSeq
   }.get.map(_.split(" ").map(_.toInt)).toArray
 

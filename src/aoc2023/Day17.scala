@@ -16,9 +16,9 @@ object Day17 extends App {
 
   case class Node(row: Int, col: Int, dirs: Set[Int])
 
-  def distances(distanceSoFar: Int, nodes: Seq[Node]) = {
+  def distances(distanceSoFar: Int, nodes: Seq[Node], dropCount: Int) = {
     val distances = nodes.scanLeft(distanceSoFar)((acc, node) => acc + input(node.row)(node.col).asDigit)
-    nodes.zip(distances.tail).toSet
+    nodes.zip(distances.tail).drop(dropCount).toSet
   }
 
   def search(visited: Set[Node], next: Set[(Node, Int)], minSteps: Int, maxSteps: Int): Int = {
@@ -27,23 +27,31 @@ object Day17 extends App {
       distance
     else {
       val top = if (node.dirs.contains(Top)) {
-        val nodes = (minSteps to maxSteps).map(i => node.row - i).filter(input.indices.contains).map(row => Node(row, node.col, Set(Left, Right)))
-        distances(distance, nodes)
+        val nodes = (1 to maxSteps).map(i => node.row - i)
+          .filter(input.indices.contains)
+          .map(row => Node(row, node.col, Set(Left, Right)))
+        distances(distance, nodes, minSteps - 1)
       } else Set.empty[(Node, Int)]
 
       val bottom = if (node.dirs.contains(Bottom)) {
-        val nodes = (minSteps to maxSteps).map(i => node.row + i).filter(input.indices.contains).map(row => Node(row, node.col, Set(Left, Right)))
-        distances(distance, nodes)
+        val nodes = (1 to maxSteps).map(i => node.row + i)
+          .filter(input.indices.contains)
+          .map(row => Node(row, node.col, Set(Left, Right)))
+        distances(distance, nodes, minSteps - 1)
       } else Set.empty[(Node, Int)]
 
       val left = if (node.dirs.contains(Left)) {
-        val nodes = (minSteps to maxSteps).map(i => node.col - i).filter(input.head.indices.contains).map(col => Node(node.row, col, Set(Top, Bottom)))
-        distances(distance, nodes)
+        val nodes = (1 to maxSteps).map(i => node.col - i)
+          .filter(input.head.indices.contains)
+          .map(col => Node(node.row, col, Set(Top, Bottom)))
+        distances(distance, nodes, minSteps - 1)
       } else Set.empty[(Node, Int)]
 
       val right = if (node.dirs.contains(Right)) {
-        val nodes = (minSteps to maxSteps).map(i => node.col + i).filter(input.head.indices.contains).map(col => Node(node.row, col, Set(Top, Bottom)))
-        distances(distance, nodes)
+        val nodes = (1 to maxSteps).map(i => node.col + i)
+          .filter(input.head.indices.contains)
+          .map(col => Node(node.row, col, Set(Top, Bottom)))
+        distances(distance, nodes, minSteps - 1)
       } else Set.empty[(Node, Int)]
 
       val neighbours = (top ++ right ++ bottom ++ left).filterNot(value => visited.contains(value._1))
